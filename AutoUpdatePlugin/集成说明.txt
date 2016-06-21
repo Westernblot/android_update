@@ -1,0 +1,27 @@
+1.安装cordova 插件
+   cordova plugin add E:\WWW\plugin\AutoUpdatePlugin
+2.删除插件
+   cordova plugin remove me-plugin-autoUpdatePlugin
+
+3.插件js端调用 实例
+
+    //------------------定义全局变量，服务器获取数据---------------------------------
+    //var serverVersion = "2.3";
+    //var serverUrl = "http://p0132.applinzi.com/Public/res/jp.apk";
+    //var serverDescription = "1.xxxxxxxxxxx<br>2.ccccccccccc3.ddddddddddd";
+
+    $http.get("http://p0132.applinzi.com/index.php/Home/Index/getServerData").success(function(data) {
+     var serverVersion = data.version;
+     var serverUrl = data.serverUrl;
+     var serverDescription = data.description;
+
+      //调用cordova插件检测更新
+      cordova.plugins.AutoUpdatePlugin.update(null, null, serverVersion, serverUrl, serverDescription);
+    }).error(function(data, header, config, status) {
+      //处理响应失败
+      $cordovaToast.showLongCenter("网络异常").then(function(success) {
+        // success
+      }, function(error) {
+        // error
+      });
+    });
